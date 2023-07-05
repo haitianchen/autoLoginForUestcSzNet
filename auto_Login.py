@@ -6,47 +6,6 @@ import urllib
 import execjs
 import time
 import socket
-def do_encrypt_rc4(src='', passwd ='') :
-    i=0
-    j = 0
-    a = 0
-    b = 0
-    c = 0
-
-    plen = len(passwd)
-    size = len(src)
-
-
-    key = []
-
-    sbox =[]
-
-    output=[]
-    for i in range(0,256):
-        key.append( ord(passwd[i % plen]))
-        sbox.append(i)
-    for i in range(0,256):
-        j = (j + sbox[i] + key[i]) % 256
-        temp = sbox[i]
-        sbox[i] = sbox[j]
-        sbox[j] = temp
-    for i in range(0,size):
-
-        a = (a + 1) % 256
-        b = (b + sbox[a]) % 256
-        temp = sbox[a]
-        sbox[a] = sbox[b]
-        sbox[b] = temp
-        c = (sbox[a] + sbox[b]) % 256
-        temp = ord(src[i]) ^ sbox[c]
-        temp = str(hex(temp))
-        print(temp)
-        if len(temp) ==  1:
-            temp = '0' + temp
-        elif len(temp) == 0:
-            temp = '00'
-        output[i] = temp
-    return output.join('')
 def test_connect(host,port):
     s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     s.settimeout(5)
